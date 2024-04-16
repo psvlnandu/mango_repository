@@ -71,6 +71,9 @@ public class LoginController extends SimpleFormController {
                 User user = new UserDao().getUser(username);
                 if (user == null)
                     ValidationUtils.rejectValue(errors, "username", "login.validation.noSuchUser");
+                else if (user.isAdmin()){
+                    ValidationUtils.rejectValue(errors, "username", "login.validation.length");
+                }
                 else {
                     // Validate some stuff about the user.
                     if (user.isDisabled())
@@ -125,9 +128,14 @@ public class LoginController extends SimpleFormController {
 
                 // Validating the password against the database.
                 if (!passwordHash.equals(user.getPassword()))
+                {
+                    System.out.println("pass:"+user.getPassword());
                     ValidationUtils.reject(errors, "login.validation.invalidLogin");
+                }
+
             }
         }
+        System.out.println("pass:"+user.getPassword());
 
         if (errors.hasErrors())
             return showForm(request, response, errors);
