@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 import javax.servlet.http.HttpServletRequest;
@@ -113,8 +114,15 @@ public class UsersDwr extends BaseDwr {
         else
             user = userDao.getUser(id);
         user.setUsername(username);
-        if (!StringUtils.isEmpty(password))
+        
+        /*
+         * length of password
+         * no common passwords 123..
+         * special characters
+         */
+        if (!StringUtils.isEmpty(password)){
             user.setPassword(Common.encrypt(password));
+        }
         user.setEmail(email);
         user.setPhone(phone);
         user.setAdmin(admin);
@@ -127,8 +135,37 @@ public class UsersDwr extends BaseDwr {
         DwrResponseI18n response = new DwrResponseI18n();
         user.validate(response);
 
+        System.out.println("user name: "+user.getUsername().toString()+"\t password entered is "+password.toString());
         // Check if the username is unique.
         User dupUser = userDao.getUser(username);
+
+        /*
+         *  requirement 1.4.2.1 : Minimum length-5
+         *  requirement 1.4.2.2: Maximum length-20
+         *  requirement 1.4.2.3: complexity requirement: required a combo of special characters
+         *  requirement 1.4.2.4 : avoid common passwords
+         *  requirement 1.4.2.5: not null or empty
+         *  requirement 1.4.2.6: tooltips or errors(optional) 
+         */
+        // List of common passwords
+        List<String> commonPasswords = Arrays.asList("123456", "123456789", "qwerty", "password", "111111");
+
+        if (user.getUsername().isEmpty()) {
+            response.addMessage(new LocalizableMessage("user.validate.emptyusername"));
+        } else if (password == null || password.isEmpty()) {
+            response.addMessage(new LocalizableMessage("user.validate.emptypassword"));
+        } else if (password.length() < 5) {
+            response.addMessage(new LocalizableMessage("user.validate.minimumlengthpassword"));
+        } else if (password.length() > 20) {
+            response.addMessage(new LocalizableMessage("user.validate.maximumlengthpassword"));
+        } else if (!password.matches(".*[!@#$%^&*]+.*")) {
+            response.addMessage(new LocalizableMessage("user.validate.special_characters_password"));
+        } else if (commonPasswords.contains(password)) {
+            response.addMessage(new LocalizableMessage("user.validate.common_password"));
+        }
+
+
+
         if (id == Common.NEW_ID && dupUser != null)
             response.addMessage(new LocalizableMessage("users.validate.usernameUnique"));
         else if (dupUser != null && id != dupUser.getId())
@@ -139,7 +176,7 @@ public class UsersDwr extends BaseDwr {
             if (!admin)
                 response.addMessage(new LocalizableMessage("users.validate.adminInvalid"));
             if (disabled)
-                response.addMessage(new LocalizableMessage("users.validate.adminDisable"));
+               response.addMessage(new LocalizableMessage("users.validate.adminDisable"));
         }
 
         if (!response.getHasMessages()) {
