@@ -45,8 +45,6 @@ create table users (
 );
 alter table users add constraint usersPk primary key (id);
 
---testing
-
 create table userComments (
   userId int,
   commentType int not null,

@@ -457,22 +457,14 @@
           window.location = "reports.shtm?wlid="+ $get("watchListSelect");
       }
     </script>
-     <span class="smallTitle"><fmt:message key="landing_home.welcomeToMango"/></span> <!--<tag:help id="welcomeToMango"/>--> <br/><br/>
-          
+    
     <table width="100%">
     <tr><td>
       <div dojoType="SplitContainer" orientation="horizontal" sizerWidth="3" activeSizing="true" class="borderDiv"
               widgetId="splitContainer" style="width: 100%; height: 500px;">
         <div dojoType="ContentPane" sizeMin="20" sizeShare="20" style="overflow:auto;padding:2px;">
-         <img src="images/hourglass.png" id="loadingImg"/>
-          <p>
-            Mango M2M is the most advanced and functional open source M2M platform available, with capabilities only otherwise to be found—if at all—at a cost of thousands of dollars per instance. 
-            And of course, all this power is delivered entirely via an internet browser. No workstation software to install. No plugins.
-            Please enter your username and password to log in. If you do not have an account on this system or have forgotten your password, 
-            contact your Mango M2M administrator for assistance. If this instance of Mango M2M has just been installed, log in with username "admin" and password "admin".
-             Note that for security reasons you should change the admin password immediately.
-          </p>
-           <img src="images/sensor_locations.png" id="sensor_locations"/>
+          <span class="smallTitle"><fmt:message key="watchlist.points"/></span> <tag:help id="watchListPoints"/><br/>
+          <img src="images/hourglass.png" id="loadingImg"/>
           <div id="treeDiv" style="display:none;"><div dojoType="Tree" widgetId="tree"></div></div>
         </div>
         <div dojoType="ContentPane" sizeMin="50" sizeShare="50" style="overflow:auto; padding:2px 10px 2px 2px;">
@@ -565,7 +557,6 @@
         </div>
       </div>
     </td></tr>
-    
     
     <tr><td>
       <div class="borderDiv" style="width: 100%;">

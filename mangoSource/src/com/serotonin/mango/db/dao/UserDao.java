@@ -129,12 +129,6 @@ public class UserDao extends BaseDao {
             + "values (?,?,?,?,?,?,?,?,?)";
 
     void insertUser(User user) {
-        
-        System.out.println("in inseert user fun");
-        System.out.println("values are isadmin "+user.isAdmin()+"\n is disabled: "+user.isDisabled()+"\n get home url: "+user.getHomeUrl()
-            +"\n receive emails: "+user.getReceiveAlarmEmails()+"\n own audit event:"+user.isReceiveOwnAuditEvents()+"\n get id:"+user.getId()
-        );
-
         int id = doInsert(
                 USER_INSERT,
                 new Object[] { user.getUsername(), user.getPassword(), user.getEmail(), user.getPhone(),
@@ -150,22 +144,34 @@ public class UserDao extends BaseDao {
             + "  username=?, password=?, email=?, phone=?, admin=?, disabled=?, homeUrl=?, receiveAlarmEmails=?, "
             + "  receiveOwnAuditEvents=? " + "where id=?";
 
-    void updateUser(User user) {
-        System.out.println("in update user fun");
-        System.out.println("values are isadmin "+user.isAdmin()+"\n is disabled: "+user.isDisabled()+"\n get home url: "+user.getHomeUrl()
-            +"\n receive emails: "+user.getReceiveAlarmEmails()+"\n own audit event:"+user.isReceiveOwnAuditEvents()+"\n get id:"+user.getId()
-        );
-        if (user.getHomeUrl()==null)
-        {
-            user.setHomeUrl("");
-        }
-        ejt.update(
-                USER_UPDATE,
-                new Object[] { user.getUsername(), user.getPassword(), user.getEmail(), user.getPhone(),
-                        boolToChar(user.isAdmin()), boolToChar(user.isDisabled()), user.getHomeUrl(),
-                        user.getReceiveAlarmEmails(), boolToChar(user.isReceiveOwnAuditEvents()), user.getId() });
-        saveRelationalData(user);
-    }
+            void updateUser(User user) {
+                if (user.getUsername() == null || user.getPassword() == null) {
+                    throw new IllegalArgumentException("Username and password must not be null");
+                }
+            
+                // Check if homeUrl is null and adjust the SQL query accordingly
+                String homeUrl = user.getHomeUrl();
+                if (homeUrl == null) {
+                    // If homeUrl is null, set it to an empty string to prevent SQL errors
+                    homeUrl = "";
+                }
+            
+                ejt.update(
+                    USER_UPDATE,
+                    new Object[] { 
+                        user.getUsername() == null ? "" : user.getUsername(),
+                        user.getPassword()== null ? "" : user.getPassword(), 
+                        user.getEmail() == null ? "" : user.getEmail(),
+                        user.getPhone() == null ? "" : user.getPhone(),
+                        boolToChar(user.isAdmin()), boolToChar(user.isDisabled()), 
+                        homeUrl,
+                        user.getReceiveAlarmEmails(), boolToChar(user.isReceiveOwnAuditEvents()), 
+                        user.getId() 
+                        }
+                 );
+                saveRelationalData(user);
+             }
+            
 
     private void saveRelationalData(final User user) {
         // Delete existing permissions.
@@ -221,9 +227,6 @@ public class UserDao extends BaseDao {
     }
 
     public void saveHomeUrl(int userId, String homeUrl) {
-        /*
-         * check if homeurl==null:change
-         */
         ejt.update("update users set homeUrl=? where id=?", new Object[] { homeUrl, userId });
     }
 
