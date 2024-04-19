@@ -118,6 +118,11 @@
       <param name="beanName" value="WatchListDwr"/>
       <filter class="com.serotonin.mango.web.dwr.util.LoggedInAjaxFilter"/>
     </create>
+    <create creator="spring" javascript="LandingPageDwr">
+      <param name="beanName" value="LandingPageDwr"/>
+      <filter class="com.serotonin.mango.web.dwr.util.LoggedInAjaxFilter"/>
+    </create>
+    
     
     <convert converter="bean" match="br.org.scadabr.OPCItem" />
     

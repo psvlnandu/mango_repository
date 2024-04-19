@@ -129,7 +129,7 @@ public class LoginController extends SimpleFormController {
                 // Validating the password against the database.
                 if (!passwordHash.equals(user.getPassword()))
                 {
-                    System.out.println("pass:"+user.getPassword());
+                    //System.out.println("pass:"+user.getPassword());
                     ValidationUtils.reject(errors, "login.validation.invalidLogin");
                 }
 
