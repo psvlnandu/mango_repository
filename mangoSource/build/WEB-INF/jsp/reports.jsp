@@ -592,6 +592,19 @@
                       <td><fmt:message key="reports.dataType"/></td>
                       <td><fmt:message key="reports.colour"/></td>
                       <td><fmt:message key="reports.consolidatedChart"/></td>
+                      <!--
+                                                  
+                          reports.title=Title
+                          reports.Xlabel=X-axis label
+                          reports.Ylabel=Y-axis label
+                          reports.chartType=chart Type
+                          reports.referenceLine=reference line
+                      -->
+                      <td><fmt:message key="reports.title"/></td>
+                      <td><fmt:message key="reports.Xlabel"/></td>
+                      <td><fmt:message key="reports.Ylabel"/></td>
+                      <td><fmt:message key="reports.chartType"/></td>
+                      <td><fmt:message key="reports.referenceLine"/></td>
                       <td></td>
                     </tr>
                   </tbody>
