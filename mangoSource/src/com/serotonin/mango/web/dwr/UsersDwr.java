@@ -148,7 +148,7 @@ public class UsersDwr extends BaseDwr {
          *  requirement 1.4.2.6: tooltips or errors(optional) 
          */
         // List of common passwords
-        List<String> commonPasswords = Arrays.asList("123456", "123456789", "qwerty", "password", "111111");
+        List<String> commonPasswords = Arrays.asList("123456", "123456789", "qwerty", "password", "111111","abc@123","abcdefg1234");
 
         if (user.getUsername().isEmpty()) {
             response.addMessage(new LocalizableMessage("user.validate.emptyusername"));
@@ -163,7 +163,12 @@ public class UsersDwr extends BaseDwr {
         } else if (commonPasswords.contains(password)) {
             response.addMessage(new LocalizableMessage("user.validate.common_password"));
         }
-
+        /*
+         * if(password!=confirm_password)
+         * {
+         *       //password and confirm_password must match
+         * }
+         */
 
 
         if (id == Common.NEW_ID && dupUser != null)

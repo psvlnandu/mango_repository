@@ -76,7 +76,7 @@
                   addPoint(rootFolder.points[i], tree);
               
               hide("loadingImg");
-              show("treeDiv");
+              //show("treeDiv");
               
               addPointNames(rootFolder);
               
