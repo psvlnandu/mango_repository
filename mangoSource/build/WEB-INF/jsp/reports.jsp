@@ -121,6 +121,8 @@
     function addPointToReport() {
         var pointId = $get("allPointsList");
         addToReportPointsArray(pointId, "", true);
+        // FR7 pass empty to text fields bcoz the same is done to color input text field
+        addToReportPointsArray(pointId,"",consolidatedChart,"","","","");
         writeReportPointsArray();
     }
     
@@ -138,6 +140,29 @@
         }
     }
     
+    /*
+      * FR7
+      * modifying above addToReportPointArray code as follows
+      * we didn't comment above becoz we are using method overloading
+    */
+    function addToReportPointsArray(pointId, colour, consolidatedChart, title, xlabel, ylabel, charttype) {
+    var data = getPointData(pointId);
+    if (data) {
+        // Missing names imply that the point was deleted, so ignore.
+        reportPointsArray.push({
+            pointId: pointId,
+            pointName: data.name,
+            pointType: data.dataTypeMessage,
+            colour: !colour ? (!data.chartColour ? "" : data.chartColour) : colour,
+            consolidatedChart: consolidatedChart,
+            title: !title ? (!data.title ? "" : data.title) : title,
+            xlabel: !xlabel ? (!data.xlabel ? "" : data.xlabel) : xlabel,
+            ylabel: !ylabel ? (!data.ylabel ? "" : data.ylabel) : ylabel,
+            charttype: !charttype ? (!data.charttype ? "" : data.charttype) : charttype
+        });
+    }
+}
+
     function getPointData(pointId) {
         for (var i=0; i<allPointsArray.length; i++) {
             if (allPointsArray[i].id == pointId)
@@ -170,7 +195,27 @@
                     function(data) { 
                             return "<img src='images/bullet_delete.png' class='ptr' "+
                                     "onclick='removeFromReportPointsArray("+ data.pointId +")'/>";
+                    },
+                    /* FR7 adding the functions for title, xLabel, yLabel, chartType,ReferenceLine
+                      * title
+                    */
+                    function(data) {
+                    	    return "<input type='text' value='"+ data.title +"' "+
+                    	            "onblur='updatePointColour("+ data.pointId +", this.value)'/>";
+                    },
+                    function(data) {
+                    	    return "<input type='text' value='"+ data.xlabel +"' "+
+                    	            "onblur='updatePointColour("+ data.pointId +", this.value)'/>";
+                    }, function(data) {
+                    	    return "<input type='text' value='"+ data.ylabel +"' "+
+                    	            "onblur='updatePointColour("+ data.pointId +", this.value)'/>";
+                    }, function(data) {
+                    	    return "<input type='text' value='"+ data.charttype +"' "+
+                    	            "onblur='updatePointColour("+ data.pointId +", this.value)'/>";
                     }
+                    /*
+                      * FR7 remove the , for the final one
+                    */
                 ],
                 {
                     rowCreator:function(options) {
@@ -584,7 +629,8 @@
                 
                 <table cellspacing="1">
                   <tbody id="reportPointsTableEmpty" style="display:none;">
-                    <tr><th colspan="4"><fmt:message key="reports.noPoints"/></th></tr>
+                    <!-- FR7: change col span from 4 to 9-->
+                    <tr><th colspan="9"><fmt:message key="reports.noPoints"/></th></tr>
                   </tbody>
                   <tbody id="reportPointsTableHeaders" style="display:none;">
                     <tr class="smRowHeader">
@@ -593,7 +639,7 @@
                       <td><fmt:message key="reports.colour"/></td>
                       <td><fmt:message key="reports.consolidatedChart"/></td>
                       <!--
-                                                  
+                          FR7:                        
                           reports.title=Title
                           reports.Xlabel=X-axis label
                           reports.Ylabel=Y-axis label
