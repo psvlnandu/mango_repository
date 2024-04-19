@@ -122,7 +122,7 @@
         var pointId = $get("allPointsList");
         addToReportPointsArray(pointId, "", true);
         // FR7 pass empty to text fields bcoz the same is done to color input text field
-        addToReportPointsArray(pointId,"",consolidatedChart,"","","","");
+        addToReportPointsArray(pointId,"",consolidatedChart,"","","","","");
         writeReportPointsArray();
     }
     
@@ -145,7 +145,7 @@
       * modifying above addToReportPointArray code as follows
       * we didn't comment above becoz we are using method overloading
     */
-    function addToReportPointsArray(pointId, colour, consolidatedChart, title, xlabel, ylabel, charttype) {
+    function addToReportPointsArray(pointId, colour, consolidatedChart, title, xlabel, ylabel, charttype,referenceLine) {
     var data = getPointData(pointId);
     if (data) {
         // Missing names imply that the point was deleted, so ignore.
@@ -158,7 +158,9 @@
             title: !title ? (!data.title ? "" : data.title) : title,
             xlabel: !xlabel ? (!data.xlabel ? "" : data.xlabel) : xlabel,
             ylabel: !ylabel ? (!data.ylabel ? "" : data.ylabel) : ylabel,
-            charttype: !charttype ? (!data.charttype ? "" : data.charttype) : charttype
+            charttype: !charttype ? (!data.charttype ? "" : data.charttype) : charttype,
+            referenceLine:!referenceLine?(!data.referenceLine?"":data.referenceLine):referenceLine
+
         });
     }
 }
@@ -192,26 +194,31 @@
                         return "<input type='checkbox'"+ (data.consolidatedChart ? " checked='checked'" : "") +
                                 " onclick='updatePointConsolidatedChart("+ data.pointId +", this.checked)'/>";
                     },
-                    function(data) { 
-                            return "<img src='images/bullet_delete.png' class='ptr' "+
-                                    "onclick='removeFromReportPointsArray("+ data.pointId +")'/>";
-                    },
+                    
                     /* FR7 adding the functions for title, xLabel, yLabel, chartType,ReferenceLine
                       * title
                     */
                     function(data) {
                     	    return "<input type='text' value='"+ data.title +"' "+
-                    	            "onblur='updatePointColour("+ data.pointId +", this.value)'/>";
+                    	            "onblur='updatePointTitle("+ data.pointId +", this.value)'/>";
                     },
                     function(data) {
                     	    return "<input type='text' value='"+ data.xlabel +"' "+
-                    	            "onblur='updatePointColour("+ data.pointId +", this.value)'/>";
+                    	            "onblur='updatePointXLabel("+ data.pointId +", this.value)'/>";
                     }, function(data) {
                     	    return "<input type='text' value='"+ data.ylabel +"' "+
-                    	            "onblur='updatePointColour("+ data.pointId +", this.value)'/>";
+                    	            "onblur='updatePointYLabel("+ data.pointId +", this.value)'/>";
                     }, function(data) {
                     	    return "<input type='text' value='"+ data.charttype +"' "+
-                    	            "onblur='updatePointColour("+ data.pointId +", this.value)'/>";
+                    	            "onblur='updatePointChartType("+ data.pointId +", this.value)'/>";
+                    }, function(data) {
+                    	    return "<input type='text' value='"+ data.refernceline +"' "+
+                    	            "onblur='updatePointReferenceLine("+ data.pointId +", this.value)'/>";
+                    },
+
+                    function(data) { 
+                            return "<img src='images/bullet_delete.png' class='ptr' "+
+                                    "onclick='removeFromReportPointsArray("+ data.pointId +")'/>";
                     }
                     /*
                       * FR7 remove the , for the final one
@@ -239,7 +246,38 @@
     	if (item)
     		item["colour"] = colour;
     }
-    
+    /*
+      * FR7 just like updatepointcolor, we need to update remeinag 
+    */
+    function updatePointTitle(pointId, title) {
+        var item = getElement(reportPointsArray, pointId, "pointId");
+        if (item)
+            item["title"] = title;
+    }
+
+    function updatePointXLabel(pointId, xlabel) {
+        var item = getElement(reportPointsArray, pointId, "pointId");
+        if (item)
+            item["xlabel"] = xlabel;
+    }
+
+    function updatePointYLabel(pointId, ylabel) {
+        var item = getElement(reportPointsArray, pointId, "pointId");
+        if (item)
+            item["ylabel"] = ylabel;
+    }
+
+    function updatePointChartType(pointId, charttype) {
+        var item = getElement(reportPointsArray, pointId, "pointId");
+        if (item)
+            item["charttype"] = charttype;
+    }
+    function updatePointReferenceLine(pointId, referenceLine) {
+        var item = getElement(reportPointsArray, pointId, "pointId");
+        if (item)
+            item["referenceLine"] = charttype;
+    }
+
     function updatePointConsolidatedChart(pointId, consolidatedChart) {
         var item = getElement(reportPointsArray, pointId, "pointId");
         if (item)

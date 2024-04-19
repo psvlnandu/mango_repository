@@ -75,7 +75,7 @@ public class ImageChartUtils {
             throw new ShouldNeverHappenException(e);
         }
     }
-
+    //FR7- modified writeChart to writeChartFull.
     public static void writeChart(PointTimeSeriesCollection pointTimeSeriesCollection, boolean showLegend,
             OutputStream out, int width, int height) throws IOException {
 
@@ -87,6 +87,7 @@ public class ImageChartUtils {
         Color gridlines = SystemSettingsDao.getColour(SystemSettingsDao.PLOT_GRIDLINE_COLOUR);
         plot.setDomainGridlinePaint(gridlines);
         plot.setRangeGridlinePaint(gridlines);
+
 
         double numericMin = 0;
         double numericMax = 1;

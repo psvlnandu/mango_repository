@@ -11,6 +11,12 @@ public class ReportPointVO implements Serializable {
     private int pointId;
     private String colour;
     private boolean consolidatedChart;
+    private boolean ChartType;
+    private String Title;
+    private String XAxis;
+    private String YAxis;
+    private int YReference;
+
 
     public int getPointId() {
         return pointId;
@@ -36,34 +42,43 @@ public class ReportPointVO implements Serializable {
         this.consolidatedChart = consolidatedChart;
     }
 
-    //
-    //
-    // Serialization
-    //
-    private static final long serialVersionUID = -1;
-    private static final int version = 2;
-
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.writeInt(version);
-
-        out.writeInt(pointId);
-        SerializationHelper.writeSafeUTF(out, colour);
-        out.writeBoolean(consolidatedChart);
+    public boolean isChartType() {
+        return ChartType;
     }
 
-    private void readObject(ObjectInputStream in) throws IOException {
-        int ver = in.readInt();
+    public void setChartType(boolean ChartType) {
+        this.ChartType = ChartType;
+    }
 
-        // Switch on the version of the class so that version changes can be elegantly handled.
-        if (ver == 1) {
-            pointId = in.readInt();
-            colour = SerializationHelper.readSafeUTF(in);
-            consolidatedChart = true;
-        }
-        else if (ver == 2) {
-            pointId = in.readInt();
-            colour = SerializationHelper.readSafeUTF(in);
-            consolidatedChart = in.readBoolean();
-        }
+    public String getTitle() {
+        return Title;
+    }
+
+    public void setTitle(String Title) {
+        this.Title = Title;
+    }
+
+    public String getXAxis() {
+        return XAxis;
+    }
+
+    public void setXaxis(String XAxis) {
+        this.XAxis = XAxis;
+    }
+
+    public String getYAxis() {
+        return YAxis;
+    }
+
+    public void setYaxis(String YAxis) {
+        this.YAxis = YAxis;
+    }
+
+    public int getYReference() {
+        return YReference;
+    }
+
+    public void setYReference(int YReference) {
+        this.YReference = YReference;
     }
 }

@@ -135,6 +135,13 @@ public class ReportChartCreator {
         model.put("NUMERIC", DataTypes.NUMERIC);
         model.put("IMAGE", DataTypes.IMAGE);
 
+        //FR7-doubt
+        model.put("title",DataTypes.ALPHANUMERIC);
+        model.put("xAxis",DataTypes.ALPHANUMERIC);
+        model.put("yAxis",DataTypes.ALPHANUMERIC);
+        model.put("charttype",DataTypes.BINARY);
+        model.put("yReferenceLine",DataTypes.NUMERIC);
+
         // Create the individual point charts
         for (PointStatistics pointStat : pointStatistics) {
             PointTimeSeriesCollection ptsc = new PointTimeSeriesCollection();
@@ -283,6 +290,50 @@ public class ReportChartCreator {
         private Color numericTimeSeriesColor;
         private DiscreteTimeSeries discreteTimeSeries;
         private byte[] imageData;
+
+        private boolean ChartType;
+        private String Title;
+        private String XAxis;
+        private String YAxis;
+        private int YReference;
+    
+        public boolean isChartType() {
+            return ChartType;
+        }
+    
+        public void setChartType(boolean ChartType) {
+            this.ChartType = ChartType;
+        }
+    
+        public String getTitle() {
+            return Title;
+        }
+    
+        public void setTitle(String Title) {
+            this.Title = Title;
+        }
+    
+        public String getXAxis() {
+            return XAxis;
+        }
+    
+        public void setXaxis(String XAxis) {
+            this.XAxis = XAxis;
+        }
+    
+        public String getYAxis() {
+            return YAxis;
+        }
+    
+        public void setYaxis(String YAxis) {
+            this.YAxis = YAxis;
+        }
+        public int getYReference() {
+            return YReference;
+        }
+    
+        public void setYReference(int YReference) {
+            this.YReference = YReference;}
 
         public PointStatistics(int reportPointId) {
             this.reportPointId = reportPointId;
@@ -497,6 +548,13 @@ public class ReportChartCreator {
             point.setDataTypeDescription(DataTypes.getDataTypeMessage(pointInfo.getDataType()).getLocalizedMessage(
                     bundle));
             point.setTextRenderer(pointInfo.getTextRenderer());
+            //FR7
+            point.setTitle(pointInfo.getTitle());
+            point.setXaxis(pointInfo.getXAxis());
+            point.setYaxis(pointInfo.getYAxis());
+            point.setChartType(pointInfo.isChartType());
+            point.setYReference(pointInfo.getYReference());
+
             if (pointInfo.getStartValue() != null)
                 point.setStartValue(pointInfo.getTextRenderer().getText(pointInfo.getStartValue(),
                         TextRenderer.HINT_FULL));
