@@ -11,12 +11,13 @@ public class ReportPointVO implements Serializable {
     private int pointId;
     private String colour;
     private boolean consolidatedChart;
-    private boolean ChartType;
-    private String Title;
-    private String XAxis;
-    private String YAxis;
-    private int YReference;
+    //FR7
 
+    private String title;
+    private String xlabel;
+    private String ylabel;
+    private double referenceLine;
+    private String charttype;
 
     public int getPointId() {
         return pointId;
@@ -42,43 +43,78 @@ public class ReportPointVO implements Serializable {
         this.consolidatedChart = consolidatedChart;
     }
 
-    public boolean isChartType() {
-        return ChartType;
-    }
-
-    public void setChartType(boolean ChartType) {
-        this.ChartType = ChartType;
-    }
-
+    //FR7
+    
+    // Getters
     public String getTitle() {
-        return Title;
+        return title;
     }
 
-    public void setTitle(String Title) {
-        this.Title = Title;
+    public String getXlabel() {
+        return xlabel;
     }
 
-    public String getXAxis() {
-        return XAxis;
+    public String getYlabel() {
+        return ylabel;
     }
 
-    public void setXaxis(String XAxis) {
-        this.XAxis = XAxis;
+    public double getReferenceLine() {
+        return referenceLine;
     }
 
-    public String getYAxis() {
-        return YAxis;
+    public String getChartType() {
+        return charttype;
     }
 
-    public void setYaxis(String YAxis) {
-        this.YAxis = YAxis;
+    // Setters
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public int getYReference() {
-        return YReference;
+    public void setXlabel(String xlabel) {
+        this.xlabel = xlabel;
     }
 
-    public void setYReference(int YReference) {
-        this.YReference = YReference;
+    public void setYlabel(String ylabel) {
+        this.ylabel = ylabel;
+    }
+
+    public void setReferenceLine(double referenceLine) {
+        this.referenceLine = referenceLine;
+    }
+
+    public void setChartType(String chartType) {
+        this.charttype = chartType;
+    }
+
+    //
+    //
+    // Serialization
+    //
+    private static final long serialVersionUID = -1;
+    private static final int version = 2;
+
+    private void writeObject(ObjectOutputStream out) throws IOException {
+        out.writeInt(version);
+
+        out.writeInt(pointId);
+        SerializationHelper.writeSafeUTF(out, colour);
+        out.writeBoolean(consolidatedChart);
+    }
+
+    private void readObject(ObjectInputStream in) throws IOException {
+        int ver = in.readInt();
+
+        // Switch on the version of the class so that version changes can be elegantly handled.
+        if (ver == 1) {
+            pointId = in.readInt();
+            colour = SerializationHelper.readSafeUTF(in);
+            consolidatedChart = true;
+        }
+        else if (ver == 2) {
+            pointId = in.readInt();
+            colour = SerializationHelper.readSafeUTF(in);
+            consolidatedChart = in.readBoolean();
+        }
     }
 }

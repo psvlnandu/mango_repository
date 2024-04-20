@@ -129,12 +129,6 @@ public class UserDao extends BaseDao {
             + "values (?,?,?,?,?,?,?,?,?)";
 
     void insertUser(User user) {
-        
-        System.out.println("in inseert user fun");
-        System.out.println("values are isadmin "+user.isAdmin()+"\n is disabled: "+user.isDisabled()+"\n get home url: "+user.getHomeUrl()
-            +"\n receive emails: "+user.getReceiveAlarmEmails()+"\n own audit event:"+user.isReceiveOwnAuditEvents()+"\n get id:"+user.getId()
-        );
-
         int id = doInsert(
                 USER_INSERT,
                 new Object[] { user.getUsername(), user.getPassword(), user.getEmail(), user.getPhone(),
@@ -151,14 +145,6 @@ public class UserDao extends BaseDao {
             + "  receiveOwnAuditEvents=? " + "where id=?";
 
     void updateUser(User user) {
-        System.out.println("in update user fun");
-        System.out.println("values are isadmin "+user.isAdmin()+"\n is disabled: "+user.isDisabled()+"\n get home url: "+user.getHomeUrl()
-            +"\n receive emails: "+user.getReceiveAlarmEmails()+"\n own audit event:"+user.isReceiveOwnAuditEvents()+"\n get id:"+user.getId()
-        );
-        if (user.getHomeUrl()==null)
-        {
-            user.setHomeUrl("");
-        }
         ejt.update(
                 USER_UPDATE,
                 new Object[] { user.getUsername(), user.getPassword(), user.getEmail(), user.getPhone(),
@@ -221,9 +207,6 @@ public class UserDao extends BaseDao {
     }
 
     public void saveHomeUrl(int userId, String homeUrl) {
-        /*
-         * check if homeurl==null:change
-         */
         ejt.update("update users set homeUrl=? where id=?", new Object[] { homeUrl, userId });
     }
 

@@ -61,8 +61,6 @@ public class User implements SetPointSource, HttpSessionBindingListener, JsonSer
     private String username;
     @JsonRemoteProperty
     private String password;
-    //@@JsonRemoteProperty
-    // private String confirm_password;
     @JsonRemoteProperty
     private String email;
     @JsonRemoteProperty
@@ -243,17 +241,6 @@ public class User implements SetPointSource, HttpSessionBindingListener, JsonSer
     public void setPassword(String password) {
         this.password = password;
     }
-
-    /*
-     * public void setConfirm_password(String pasword)
-     * {
-     *          this.confirm_passwword=password;
-     * }
-     * 
-     * public void getConfirm_password(){
-     *      return confirm_password; 
-     * }
-     */
 
     public String getUsername() {
         return username;

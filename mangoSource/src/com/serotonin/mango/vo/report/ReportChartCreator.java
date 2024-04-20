@@ -135,13 +135,6 @@ public class ReportChartCreator {
         model.put("NUMERIC", DataTypes.NUMERIC);
         model.put("IMAGE", DataTypes.IMAGE);
 
-        //FR7-doubt
-        model.put("title",DataTypes.ALPHANUMERIC);
-        model.put("xAxis",DataTypes.ALPHANUMERIC);
-        model.put("yAxis",DataTypes.ALPHANUMERIC);
-        model.put("charttype",DataTypes.BINARY);
-        model.put("yReferenceLine",DataTypes.NUMERIC);
-
         // Create the individual point charts
         for (PointStatistics pointStat : pointStatistics) {
             PointTimeSeriesCollection ptsc = new PointTimeSeriesCollection();
@@ -154,7 +147,13 @@ public class ReportChartCreator {
             if (ptsc.hasData()) {
                 if (inlinePrefix != null)
                     model.put("chartName", inlinePrefix + pointStat.getChartName());
-                pointStat.setImageData(ImageChartUtils.getChartData(ptsc, POINT_IMAGE_WIDTH, POINT_IMAGE_HEIGHT));
+                pointStat.setImageData(ImageChartUtils.getChartData(ptsc,true, POINT_IMAGE_WIDTH, POINT_IMAGE_HEIGHT,
+                pointStat.getTitle(),
+                pointStat.getXlabel(),
+                pointStat.getYlabel(),
+                pointStat.getChartType(),
+                pointStat.getReferenceLine()
+                ));
             }
         }
 
@@ -167,7 +166,6 @@ public class ReportChartCreator {
                 // The path comes from the servlet path definition in web.xml.
                 model.put("chartName", IMAGE_SERVLET + chartName);
             }
-
             imageData = ImageChartUtils.getChartData(ptsc, true, IMAGE_WIDTH, IMAGE_HEIGHT);
         }
 
@@ -291,53 +289,59 @@ public class ReportChartCreator {
         private DiscreteTimeSeries discreteTimeSeries;
         private byte[] imageData;
 
-        private boolean ChartType;
-        private String Title;
-        private String XAxis;
-        private String YAxis;
-        private int YReference;
-    
-        public boolean isChartType() {
-            return ChartType;
-        }
-    
-        public void setChartType(boolean ChartType) {
-            this.ChartType = ChartType;
-        }
-    
-        public String getTitle() {
-            return Title;
-        }
-    
-        public void setTitle(String Title) {
-            this.Title = Title;
-        }
-    
-        public String getXAxis() {
-            return XAxis;
-        }
-    
-        public void setXaxis(String XAxis) {
-            this.XAxis = XAxis;
-        }
-    
-        public String getYAxis() {
-            return YAxis;
-        }
-    
-        public void setYaxis(String YAxis) {
-            this.YAxis = YAxis;
-        }
-        public int getYReference() {
-            return YReference;
-        }
-    
-        public void setYReference(int YReference) {
-            this.YReference = YReference;}
+        //FR7
+            
+        private String title;
+        private String xlabel;
+        private String ylabel;
+        private double referenceLine;
+        private String chartType;
 
         public PointStatistics(int reportPointId) {
             this.reportPointId = reportPointId;
         }
+        //FR7
+        // Getters
+    public String getTitle() {
+        return title;
+    }
+
+    public String getXlabel() {
+        return xlabel;
+    }
+
+    public String getYlabel() {
+        return ylabel;
+    }
+
+    public double getReferenceLine() {
+        return referenceLine;
+    }
+
+    public String getChartType() {
+        return chartType;
+    }
+
+    // Setters
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setXlabel(String xlabel) {
+        this.xlabel = xlabel;
+    }
+
+    public void setYlabel(String ylabel) {
+        this.ylabel = ylabel;
+    }
+
+    public void setReferenceLine(double referenceLine) {
+        this.referenceLine = referenceLine;
+    }
+
+    public void setChartType(String chartType) {
+        this.chartType = chartType;
+    }
 
         public String getName() {
             return name;
@@ -550,10 +554,10 @@ public class ReportChartCreator {
             point.setTextRenderer(pointInfo.getTextRenderer());
             //FR7
             point.setTitle(pointInfo.getTitle());
-            point.setXaxis(pointInfo.getXAxis());
-            point.setYaxis(pointInfo.getYAxis());
-            point.setChartType(pointInfo.isChartType());
-            point.setYReference(pointInfo.getYReference());
+            point.setXlabel(pointInfo.getXlabel());
+            point.setYlabel(pointInfo.getYlabel());
+            point.setChartType(pointInfo.getChartType());
+            point.setReferenceLine(pointInfo.getReferenceLine());
 
             if (pointInfo.getStartValue() != null)
                 point.setStartValue(pointInfo.getTextRenderer().getText(pointInfo.getStartValue(),

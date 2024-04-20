@@ -120,13 +120,12 @@
     
     function addPointToReport() {
         var pointId = $get("allPointsList");
-        addToReportPointsArray(pointId, "", true);
-        // FR7 pass empty to text fields bcoz the same is done to color input text field
-        addToReportPointsArray(pointId,"",consolidatedChart,"","","","","");
+        //FR7 changes made to next line
+        addToReportPointsArray(pointId, "", true,"","","","",0);
         writeReportPointsArray();
     }
     
-    function addToReportPointsArray(pointId, colour, consolidatedChart) {
+    function addToReportPointsArray(pointId, colour, consolidatedChart,title,xlabel,ylabel,charttype,referenceLine) {
         var data = getPointData(pointId);
         if (data) {
             // Missing names imply that the point was deleted, so ignore.
@@ -135,36 +134,17 @@
                 pointName : data.name,
                 pointType : data.dataTypeMessage,
                 colour : !colour ? (!data.chartColour ? "" : data.chartColour) : colour,
-                consolidatedChart : consolidatedChart
-            };
+                consolidatedChart : consolidatedChart,
+                //FR7
+                title: !title ? (!data.title ? "" : data.title) : title,
+                xlabel: !xlabel ? (!data.xlabel ? "" : data.xlabel) : xlabel,
+                ylabel: !ylabel ? (!data.ylabel ? "" : data.ylabel) : ylabel,
+                charttype: !charttype ? (!data.charttype ? "" : data.charttype) : charttype,
+                referenceLine: !referenceLine ? (!data.referenceLine ? 0 : data.referenceLine) : referenceLine
+        };
         }
     }
     
-    /*
-      * FR7
-      * modifying above addToReportPointArray code as follows
-      * we didn't comment above becoz we are using method overloading
-    */
-    function addToReportPointsArray(pointId, colour, consolidatedChart, title, xlabel, ylabel, charttype,referenceLine) {
-    var data = getPointData(pointId);
-    if (data) {
-        // Missing names imply that the point was deleted, so ignore.
-        reportPointsArray.push({
-            pointId: pointId,
-            pointName: data.name,
-            pointType: data.dataTypeMessage,
-            colour: !colour ? (!data.chartColour ? "" : data.chartColour) : colour,
-            consolidatedChart: consolidatedChart,
-            title: !title ? (!data.title ? "" : data.title) : title,
-            xlabel: !xlabel ? (!data.xlabel ? "" : data.xlabel) : xlabel,
-            ylabel: !ylabel ? (!data.ylabel ? "" : data.ylabel) : ylabel,
-            charttype: !charttype ? (!data.charttype ? "" : data.charttype) : charttype,
-            referenceLine:!referenceLine?(!data.referenceLine?"":data.referenceLine):referenceLine
-
-        });
-    }
-}
-
     function getPointData(pointId) {
         for (var i=0; i<allPointsArray.length; i++) {
             if (allPointsArray[i].id == pointId)
@@ -195,8 +175,9 @@
                                 " onclick='updatePointConsolidatedChart("+ data.pointId +", this.checked)'/>";
                     },
                     
-                    /* FR7 adding the functions for title, xLabel, yLabel, chartType,ReferenceLine
-                      * title
+
+                    /*
+                    FR7 changes:
                     */
                     function(data) {
                     	    return "<input type='text' value='"+ data.title +"' "+
@@ -205,24 +186,25 @@
                     function(data) {
                     	    return "<input type='text' value='"+ data.xlabel +"' "+
                     	            "onblur='updatePointXLabel("+ data.pointId +", this.value)'/>";
-                    }, function(data) {
+                    },
+                    function(data) {
                     	    return "<input type='text' value='"+ data.ylabel +"' "+
                     	            "onblur='updatePointYLabel("+ data.pointId +", this.value)'/>";
-                    }, function(data) {
+                    },
+                    function(data) {
                     	    return "<input type='text' value='"+ data.charttype +"' "+
                     	            "onblur='updatePointChartType("+ data.pointId +", this.value)'/>";
-                    }, function(data) {
-                    	    return "<input type='text' value='"+ data.refernceline +"' "+
-                    	            "onblur='updatePointReferenceLine("+ data.pointId +", this.value)'/>";
                     },
+                    function(data) {
+                    	    return "<input type='text' value='"+ data.referenceLine +"' "+
+                    	            "onblur='updateReferenceLine("+ data.pointId +", this.value)'/>";
+                    },
+
 
                     function(data) { 
                             return "<img src='images/bullet_delete.png' class='ptr' "+
                                     "onclick='removeFromReportPointsArray("+ data.pointId +")'/>";
                     }
-                    /*
-                      * FR7 remove the , for the final one
-                    */
                 ],
                 {
                     rowCreator:function(options) {
@@ -246,13 +228,13 @@
     	if (item)
     		item["colour"] = colour;
     }
-    /*
-      * FR7 just like updatepointcolor, we need to update remeinag 
-    */
+    
+    
+    //FR7
     function updatePointTitle(pointId, title) {
-        var item = getElement(reportPointsArray, pointId, "pointId");
-        if (item)
-            item["title"] = title;
+    var item = getElement(reportPointsArray, pointId, "pointId");
+    if (item)
+        item["title"] = title;
     }
 
     function updatePointXLabel(pointId, xlabel) {
@@ -272,12 +254,11 @@
         if (item)
             item["charttype"] = charttype;
     }
-    function updatePointReferenceLine(pointId, referenceLine) {
+    function updateReferenceLine(pointId, referenceline) {
         var item = getElement(reportPointsArray, pointId, "pointId");
         if (item)
-            item["referenceLine"] = charttype;
+            item["referenceLine"] = referenceline;
     }
-
     function updatePointConsolidatedChart(pointId, consolidatedChart) {
         var item = getElement(reportPointsArray, pointId, "pointId");
         if (item)
@@ -667,8 +648,7 @@
                 
                 <table cellspacing="1">
                   <tbody id="reportPointsTableEmpty" style="display:none;">
-                    <!-- FR7: change col span from 4 to 9-->
-                    <tr><th colspan="9"><fmt:message key="reports.noPoints"/></th></tr>
+                    <tr><th colspan="4"><fmt:message key="reports.noPoints"/></th></tr>
                   </tbody>
                   <tbody id="reportPointsTableHeaders" style="display:none;">
                     <tr class="smRowHeader">
@@ -677,18 +657,19 @@
                       <td><fmt:message key="reports.colour"/></td>
                       <td><fmt:message key="reports.consolidatedChart"/></td>
                       <!--
-                          FR7:                        
-                          reports.title=Title
-                          reports.Xlabel=X-axis label
-                          reports.Ylabel=Y-axis label
-                          reports.chartType=chart Type
-                          reports.referenceLine=reference line
+                        * FR7:                                                  
+                          reports.title= title
+                          reports.xlabel=xlabel
+                          reports.ylabel=ylabel
+                          reports.charttype=chart type
+                          reports.yReferenceLine=reference line
                       -->
+
+                      <td><fmt:message key="reports.charttype"/></td>
                       <td><fmt:message key="reports.title"/></td>
-                      <td><fmt:message key="reports.Xlabel"/></td>
-                      <td><fmt:message key="reports.Ylabel"/></td>
-                      <td><fmt:message key="reports.chartType"/></td>
-                      <td><fmt:message key="reports.referenceLine"/></td>
+                      <td><fmt:message key="reports.xlabel"/></td>
+                      <td><fmt:message key="reports.ylabel"/></td>
+                      <td><fmt:message key="reports.yReferenceLine"/></td>
                       <td></td>
                     </tr>
                   </tbody>
