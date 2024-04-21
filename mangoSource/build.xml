@@ -134,6 +134,8 @@
 	
 	<target name="deploy" depends="build,copy" description="Compile and copy changed assets to Tomcat"/>
   	<target name="fullDeploy" depends="fullBuild,copy" description="Compile and copy changed assets to Tomcat"/>
+  	<target name="poorna" depends="clean,build,fullDeploy" description="Compile and copy changed assets to Tomcat"/>
+
 
 <!-- ============================================================== -->
 <!-- Distribution build tasks                                       -->

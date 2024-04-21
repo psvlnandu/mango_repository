@@ -75,7 +75,13 @@
         reportPointsArray = new Array();
         for (var i=0; i<report.points.length; i++)
             addToReportPointsArray(report.points[i].pointId, report.points[i].colour,
-                    report.points[i].consolidatedChart);
+                    report.points[i].consolidatedChart,
+                    report.points[i].charttype,
+                    report.points[i].title,
+                    report.points[i].xlabel,
+                    report.points[i].ylabel,
+                    report.points[i].referenceLine
+                  );
         $set("includeEvents", report.includeEvents);
         $set("includeUserComments", report.includeUserComments);
         $set("dateRangeType", report.dateRangeType);
@@ -121,7 +127,7 @@
     function addPointToReport() {
         var pointId = $get("allPointsList");
         //FR7 changes made to next line
-        addToReportPointsArray(pointId, "", true,"","","","",0);
+        addToReportPointsArray(pointId, "", true);
         writeReportPointsArray();
     }
     
@@ -136,11 +142,11 @@
                 colour : !colour ? (!data.chartColour ? "" : data.chartColour) : colour,
                 consolidatedChart : consolidatedChart,
                 //FR7
+                charttype: charttype,
                 title: !title ? (!data.title ? "" : data.title) : title,
                 xlabel: !xlabel ? (!data.xlabel ? "" : data.xlabel) : xlabel,
                 ylabel: !ylabel ? (!data.ylabel ? "" : data.ylabel) : ylabel,
-                charttype: !charttype ? (!data.charttype ? "" : data.charttype) : charttype,
-                referenceLine: !referenceLine ? (!data.referenceLine ? 0 : data.referenceLine) : referenceLine
+                referenceLine: !referenceLine ? (!data.referenceLine ? "" : data.referenceLine) : referenceLine
         };
         }
     }
@@ -199,7 +205,6 @@
                     	    return "<input type='text' value='"+ data.referenceLine +"' "+
                     	            "onblur='updateReferenceLine("+ data.pointId +", this.value)'/>";
                     },
-
 
                     function(data) { 
                             return "<img src='images/bullet_delete.png' class='ptr' "+
@@ -461,7 +466,15 @@
         var points = new Array();
         for (var i=0; i<reportPointsArray.length; i++)
             points[points.length] = { pointId: reportPointsArray[i].pointId, colour: reportPointsArray[i].colour,
-        		    consolidatedChart: reportPointsArray[i].consolidatedChart };
+        		    consolidatedChart: reportPointsArray[i].consolidatedChart,
+                charttype:reportPointsArray[i].charttype,
+                title:reportPointsArray[i].title,
+                xlabel:reportPointsArray[i].xlabel,
+                ylabel:reportPointsArray[i].ylabel,
+                referenceLine:reportPointsArray[i].referenceLine
+               };
+
+        console.log("payload from repots: ",points);
         return points;
     }
     

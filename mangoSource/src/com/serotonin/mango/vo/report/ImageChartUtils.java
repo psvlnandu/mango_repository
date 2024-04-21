@@ -54,6 +54,7 @@ import com.serotonin.util.StringUtils;
 public class ImageChartUtils {
     private static final int NUMERIC_DATA_INDEX = 0;
     private static final int DISCRETE_DATA_INDEX = 1;
+    private static final int REFERENCE_LINE_INDEX=2;
 
     public static void writeChart(PointTimeSeriesCollection pointTimeSeriesCollection, OutputStream out, int width,
             int height) throws IOException {
@@ -88,7 +89,7 @@ public class ImageChartUtils {
             ) {
         try {
             ByteArrayOutputStream out = new ByteArrayOutputStream();
-            //FR&
+            //FR7
             writeChartFull(pointTimeSeriesCollection, showLegend, out, width, height, title,xlabel,ylabel,charttype,referenceLine);
             return out.toByteArray();
         }
@@ -104,11 +105,19 @@ public class ImageChartUtils {
             String xlabel,
             String ylabel,
             String charttype,
-            Double referenceLine
+            double referenceLine
             
             ) throws IOException {
 
-        JFreeChart chart = ChartFactory.createTimeSeriesChart(null, null, null, null, showLegend, false, false);
+        JFreeChart chart = ChartFactory.createTimeSeriesChart(title, xlabel, ylabel, null, showLegend, false, false);
+        //FR7 create scatter plot-
+        /*
+        * createTimeSeriesChart(String title, String timeAxisLabel, 
+        * String valueAxisLabel, XYDataset dataset, boolean legend, boolean tooltips, boolean urls) : JFreeChart
+         * createScatterPlot(String title, String xAxisLabel, 
+         * String yAxisLabel, XYDataset dataset, PlotOrientation orientation, boolean legend, boolean tooltips, boolean urls
+         */
+        // JFreeChart chart = ChartFactory.createScatterPlot(title,xlabel,ylabel,null, null, showLegend, false, false);
         chart.setBackgroundPaint(SystemSettingsDao.getColour(SystemSettingsDao.CHART_BACKGROUND_COLOUR));
 
         XYPlot plot = chart.getXYPlot();
@@ -117,15 +126,18 @@ public class ImageChartUtils {
         plot.setDomainGridlinePaint(gridlines);
         plot.setRangeGridlinePaint(gridlines);
         //FR7
-        chart.setTitle(title);
-        plot.getDomainAxis().setLabel(xlabel);
-        plot.getDomainAxis().setLabel(ylabel);
+        // chart.setTitle(title);
+        System.out.println("title :"+title+" xlabel: "+xlabel+" ylabel: "+ylabel);
+        // plot.getDomainAxis().setLabel(xlabel);
+        // plot.getDomainAxis().setLabel(ylabel);
         double numericMin = 0;
         double numericMax = 1;
         if (pointTimeSeriesCollection.hasNumericData()) {
             //            XYSplineRenderer numericRenderer = new XYSplineRenderer();
             //            numericRenderer.setBaseShapesVisible(false);
-            XYLineAndShapeRenderer numericRenderer = new XYLineAndShapeRenderer(true, false);
+            //FR7 intially true & false
+            XYLineAndShapeRenderer numericRenderer = new XYLineAndShapeRenderer(false, true);            
+            // XYLineAndShapeRenderer yrefRenderer = new XYLineAndShapeRenderer(true, false);
 
             plot.setDataset(NUMERIC_DATA_INDEX, pointTimeSeriesCollection.getNumericTimeSeriesCollection());
             plot.setRenderer(NUMERIC_DATA_INDEX, numericRenderer);
@@ -135,6 +147,16 @@ public class ImageChartUtils {
                 if (paint != null)
                     numericRenderer.setSeriesPaint(i, paint, false);
             }
+
+            // if(referenceLine!=null){
+            //     TimeSeries ts=new TimeSeries("referenceLine",null,null,Second.class);
+            //     ts.add(new Second(new Date(0)),referenceLine);
+            //     ts.add(new Second(new Date(0)),referenceLine);
+
+            //     TimeSeriesCollection tsc = new TimeSeriesCollection(ts);
+            //     plot.setDataset(REFERENCE_LINE_INDEX,tsc);  
+            //     plot.setRenderer(DISCRETE_DATA_INDEX, discreteRenderer);
+            // }
 
             numericMin = plot.getRangeAxis().getLowerBound();
             numericMax = plot.getRangeAxis().getUpperBound();
@@ -161,6 +183,8 @@ public class ImageChartUtils {
             int discreteValueCount = pointTimeSeriesCollection.getDiscreteValueCount();
             double interval = (numericMax - numericMin) / (discreteValueCount + 1);
             TimeSeriesCollection timeSeriesCollection = new TimeSeriesCollection();
+
+            //FR7            
 
             int intervalIndex = 1;
             for (int i = 0; i < pointTimeSeriesCollection.getDiscreteSeriesCount(); i++) {
