@@ -180,7 +180,7 @@ public class ReportsDwr extends BaseDwr {
             int toDay, int toHour, int toMinute, boolean email, boolean includeData, boolean zipData,
             List<RecipientListEntryBean> recipients) {
         DwrResponseI18n response = new DwrResponseI18n();
-
+        
         // Basic validation
         validateData(response, name, points, dateRangeType, relativeDateType, previousPeriodCount, pastPeriodCount);
 

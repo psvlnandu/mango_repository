@@ -90,6 +90,7 @@ public class ImageChartUtils {
         try {
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             //FR7
+            System.out.println("getchartdata: title "+title+" xlabel "+xlabel+" ylabl "+ylabel);
             writeChartFull(pointTimeSeriesCollection, showLegend, out, width, height, title,xlabel,ylabel,charttype,referenceLine);
             return out.toByteArray();
         }
@@ -127,7 +128,7 @@ public class ImageChartUtils {
         plot.setRangeGridlinePaint(gridlines);
         //FR7
         // chart.setTitle(title);
-        System.out.println("title :"+title+" xlabel: "+xlabel+" ylabel: "+ylabel);
+        System.out.println("writeChartFull title :"+title+" xlabel: "+xlabel+" ylabel: "+ylabel);
         // plot.getDomainAxis().setLabel(xlabel);
         // plot.getDomainAxis().setLabel(ylabel);
         double numericMin = 0;
@@ -136,11 +137,25 @@ public class ImageChartUtils {
             //            XYSplineRenderer numericRenderer = new XYSplineRenderer();
             //            numericRenderer.setBaseShapesVisible(false);
             //FR7 intially true & false
-            XYLineAndShapeRenderer numericRenderer = new XYLineAndShapeRenderer(false, true);            
-            // XYLineAndShapeRenderer yrefRenderer = new XYLineAndShapeRenderer(true, false);
+            XYLineAndShapeRenderer numericRenderer = new XYLineAndShapeRenderer(false, true);   
 
             plot.setDataset(NUMERIC_DATA_INDEX, pointTimeSeriesCollection.getNumericTimeSeriesCollection());
             plot.setRenderer(NUMERIC_DATA_INDEX, numericRenderer);
+
+            if(referenceLine != 0) {
+                XYLineAndShapeRenderer refernceline_Renderer = new XYLineAndShapeRenderer(true,false);
+                refernceline_Renderer.setSeriesPaint(0, Color.GREEN);
+                
+                TimeSeries ts = new TimeSeries("referenceLine", null, null, Second.class);
+                ts.add(new Second(new Date((long) plot.getDomainAxis().getLowerBound())), referenceLine);
+                ts.add(new Second(new Date((long) plot.getDomainAxis().getUpperBound())), referenceLine);
+                
+                
+                TimeSeriesCollection tsc = new TimeSeriesCollection(ts);
+                plot.setDataset(REFERENCE_LINE_INDEX, tsc);
+                plot.setRenderer(REFERENCE_LINE_INDEX, refernceline_Renderer);
+            }
+            
 
             for (int i = 0; i < pointTimeSeriesCollection.getNumericPaint().size(); i++) {
                 Paint paint = pointTimeSeriesCollection.getNumericPaint().get(i);

@@ -147,7 +147,11 @@ public class ReportChartCreator {
             if (ptsc.hasData()) {
                 if (inlinePrefix != null)
                     model.put("chartName", inlinePrefix + pointStat.getChartName());
-                pointStat.setImageData(ImageChartUtils.getChartData(ptsc,true, POINT_IMAGE_WIDTH, POINT_IMAGE_HEIGHT,
+                    //FR7
+                    System.out.println("createcontext: title "+pointStat.getTitle()+" xlabel "+pointStat.getXlabel()+" ylabl "+pointStat.getYlabel());
+           
+                pointStat.setImageData(
+                    ImageChartUtils.getChartData(ptsc,true, POINT_IMAGE_WIDTH, POINT_IMAGE_HEIGHT,
                 pointStat.getTitle(),
                 pointStat.getXlabel(),
                 pointStat.getYlabel(),
@@ -558,6 +562,14 @@ public class ReportChartCreator {
             point.setYlabel(pointInfo.getYlabel());
             point.setChartType(pointInfo.getChartType());
             point.setReferenceLine(pointInfo.getReferenceLine());
+
+            System.out.print("in class reportchartcreator charttype: ");System.out.println(pointInfo.getChartType());
+            System.out.print("in class reportchartcreator title: ");System.out.println(pointInfo.getTitle());
+            System.out.print("in class reportchartcreator xlabel: ");System.out.println(pointInfo.getXlabel());
+            System.out.print("in class reportchartcreator ylabel: ");System.out.println(pointInfo.getYlabel());
+            System.out.print("in class reportchartcreator ref line: ");System.out.println(pointInfo.getReferenceLine());
+
+
 
             if (pointInfo.getStartValue() != null)
                 point.setStartValue(pointInfo.getTextRenderer().getText(pointInfo.getStartValue(),

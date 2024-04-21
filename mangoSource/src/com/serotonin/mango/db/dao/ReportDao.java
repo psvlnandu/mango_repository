@@ -479,7 +479,7 @@ public class ReportDao extends BaseDao {
                             rp.setStartValue(MangoValue.stringToValue(startValue, rp.getDataType()));
                         rp.setTextRenderer((TextRenderer) SerializationHelper.readObject(rs.getBlob(6)
                                 .getBinaryStream()));
-                                //FR&
+                                //FR7
                         rp.setColour(rs.getString(7));
                         rp.setConsolidatedChart(charToBool(rs.getString(8)));
                         rp.setTitle(rs.getString(9));

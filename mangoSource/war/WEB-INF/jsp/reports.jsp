@@ -142,7 +142,7 @@
                 colour : !colour ? (!data.chartColour ? "" : data.chartColour) : colour,
                 consolidatedChart : consolidatedChart,
                 //FR7
-                charttype: charttype,
+                charttype: !charttype ? (!data.charttype ? "" : data.charttype) : charttype,
                 title: !title ? (!data.title ? "" : data.title) : title,
                 xlabel: !xlabel ? (!data.xlabel ? "" : data.xlabel) : xlabel,
                 ylabel: !ylabel ? (!data.ylabel ? "" : data.ylabel) : ylabel,
@@ -185,6 +185,11 @@
                     /*
                     FR7 changes:
                     */
+                   
+                    function(data) {
+                    	    return "<input type='text' value='"+ data.charttype +"' "+
+                    	            "onblur='updatePointChartType("+ data.pointId +", this.value)'/>";
+                    },
                     function(data) {
                     	    return "<input type='text' value='"+ data.title +"' "+
                     	            "onblur='updatePointTitle("+ data.pointId +", this.value)'/>";
@@ -196,10 +201,6 @@
                     function(data) {
                     	    return "<input type='text' value='"+ data.ylabel +"' "+
                     	            "onblur='updatePointYLabel("+ data.pointId +", this.value)'/>";
-                    },
-                    function(data) {
-                    	    return "<input type='text' value='"+ data.charttype +"' "+
-                    	            "onblur='updatePointChartType("+ data.pointId +", this.value)'/>";
                     },
                     function(data) {
                     	    return "<input type='text' value='"+ data.referenceLine +"' "+
