@@ -188,7 +188,7 @@
                    
                     function(data) {
                     	    return "<input type='text' value='"+ data.charttype +"' "+
-                    	            "onblur='updatePointChartType("+ data.pointId +", this.value)'/>";
+                    	            "onchange='updatePointChartType("+ data.pointId +", this.value)'/>";
                     },
                     function(data) {
                     	    return "<input type='text' value='"+ data.title +"' "+
@@ -257,6 +257,7 @@
 
     function updatePointChartType(pointId, charttype) {
         var item = getElement(reportPointsArray, pointId, "pointId");
+        console.log("chart func called in jsp");
         if (item)
             item["charttype"] = charttype;
     }

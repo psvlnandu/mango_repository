@@ -148,7 +148,8 @@ public class ReportChartCreator {
                 if (inlinePrefix != null)
                     model.put("chartName", inlinePrefix + pointStat.getChartName());
                     //FR7
-                    System.out.println("createcontext: title "+pointStat.getTitle()+" xlabel "+pointStat.getXlabel()+" ylabl "+pointStat.getYlabel());
+                    System.out.println("createcontext: title "+pointStat.getTitle()+" xlabel "+pointStat.getXlabel()+" ylabl "+pointStat.getYlabel()
+                    +"getcharttype() is "+pointStat.getChartType());
            
                 pointStat.setImageData(
                     ImageChartUtils.getChartData(ptsc,true, POINT_IMAGE_WIDTH, POINT_IMAGE_HEIGHT,
