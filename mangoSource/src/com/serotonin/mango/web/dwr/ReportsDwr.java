@@ -180,7 +180,10 @@ public class ReportsDwr extends BaseDwr {
             int toDay, int toHour, int toMinute, boolean email, boolean includeData, boolean zipData,
             List<RecipientListEntryBean> recipients) {
         DwrResponseI18n response = new DwrResponseI18n();
-        
+        System.out.print("in reportdwr");
+        for(ReportPointVO x:points){
+            System.out.println(x.getChartType());
+        }
         // Basic validation
         validateData(response, name, points, dateRangeType, relativeDateType, previousPeriodCount, pastPeriodCount);
 
@@ -257,6 +260,14 @@ public class ReportsDwr extends BaseDwr {
             try {
                 if (!StringUtils.isEmpty(point.getColour()))
                     ColorUtils.toColor(point.getColour());
+                    
+                    if (!point.getChartType().equals("scatter") && !point.getChartType().equals("line")) {
+                        response.addContextualMessage("points", "reports.validate.chartType", point.getChartType());
+                    } else if (point.getChartType().isEmpty() || point.getChartType() == null) {
+                        response.addContextualMessage("points", "reports.validate.chartType", point.getChartType());
+                    }
+                    
+                    
             }
             catch (InvalidArgumentException e) {
                 response.addContextualMessage("points", "reports.validate.colour", point.getColour());

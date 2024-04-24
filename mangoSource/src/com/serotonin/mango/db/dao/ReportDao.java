@@ -195,7 +195,7 @@ public class ReportDao extends BaseDao {
      * This method should only be called by the ReportWorkItem.
      */
     private static final String REPORT_INSTANCE_POINTS_INSERT = "insert into reportInstancePoints " //
-            + "(reportInstanceId, dataSourceName, pointName, dataType, startValue, textRenderer, colour, consolidatedChart, title, xlabel, ylabel, charttype, referenceLine ) "
+            + "(reportInstanceId, dataSourceName, pointName, dataType, startValue, textRenderer, colour, consolidatedChart, title, xlabel, ylabel, chartType, referenceLine ) "
             + "values (?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
     public static class PointInfo {
@@ -208,11 +208,11 @@ public class ReportDao extends BaseDao {
         private final String xlabel;
         private final String ylabel;
         private final double referenceLine;
-        private final String charttype;
+        private final String chartType;
 
 
         public PointInfo(DataPointVO point, String colour, boolean consolidatedChart,
-            String title, String xlabel, String ylabel, String charttype, double referenceLine
+            String title, String xlabel, String ylabel, String chartType, double referenceLine
             ) {
             this.point = point;
             this.colour = colour;
@@ -221,7 +221,7 @@ public class ReportDao extends BaseDao {
             this.xlabel=xlabel;
             this.ylabel=ylabel;
             this.referenceLine=referenceLine;
-            this.charttype=charttype;
+            this.chartType=chartType;
         }
 
         public DataPointVO getPoint() {
@@ -254,7 +254,7 @@ public class ReportDao extends BaseDao {
         }
 
         public String getChartType() {
-            return charttype;
+            return chartType;
         }
     }
 
@@ -457,7 +457,7 @@ public class ReportDao extends BaseDao {
      * ordered), and sorted by time ascending.
      */
     private static final String REPORT_INSTANCE_POINT_SELECT = "select id, dataSourceName, pointName, dataType, " // 
-            + "startValue, textRenderer, colour, consolidatedChart, title, xlabel, ylabel, charttype, referenceLine from reportInstancePoints ";
+            + "startValue, textRenderer, colour, consolidatedChart, title, xlabel, ylabel, chartType, referenceLine from reportInstancePoints ";
     private static final String REPORT_INSTANCE_DATA_SELECT = "select rd.pointValue, rda.textPointValueShort, " //
             + "  rda.textPointValueLong, rd.ts, rda.sourceValue "
             + "from reportInstanceData rd "

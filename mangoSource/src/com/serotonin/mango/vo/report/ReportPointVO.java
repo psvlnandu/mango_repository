@@ -17,7 +17,7 @@ public class ReportPointVO implements Serializable {
     private String xlabel;
     private String ylabel;
     private double referenceLine;
-    private String charttype;
+    private String chartType;
 
     public int getPointId() {
         return pointId;
@@ -63,7 +63,7 @@ public class ReportPointVO implements Serializable {
     }
 
     public String getChartType() {
-        return charttype;
+        return chartType;
     }
 
     // Setters
@@ -84,7 +84,7 @@ public class ReportPointVO implements Serializable {
     }
 
     public void setChartType(String chartType) {
-        this.charttype = chartType;
+        this.chartType = chartType;
     }
 
     //

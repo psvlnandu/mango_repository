@@ -84,14 +84,14 @@ public class ImageChartUtils {
             String title,
             String xlabel,
             String ylabel,
-            String charttype,
+            String chartType,
             Double referenceLine
             ) {
         try {
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             //FR7
-            System.out.println("getchartdata: title "+title+" xlabel "+xlabel+" ylabl "+ylabel);
-            writeChartFull(pointTimeSeriesCollection, showLegend, out, width, height, title,xlabel,ylabel,charttype,referenceLine);
+            System.out.println("getchartdata: title "+title+" xlabel "+xlabel+" ylabl "+ylabel + "chartType :"+chartType);
+            writeChartFull(pointTimeSeriesCollection, showLegend, out, width, height, title,xlabel,ylabel,chartType,referenceLine);
             return out.toByteArray();
         }
         catch (IOException e) {
@@ -105,7 +105,7 @@ public class ImageChartUtils {
             String title,
             String xlabel,
             String ylabel,
-            String charttype,
+            String chartType,
             double referenceLine
             
             ) throws IOException {
@@ -128,7 +128,7 @@ public class ImageChartUtils {
         plot.setRangeGridlinePaint(gridlines);
         //FR7
         // chart.setTitle(title);
-        System.out.println("writeChartFull title :"+title+" xlabel: "+xlabel+" ylabel: "+ylabel);
+        System.out.println("writeChartFull title :"+title+" xlabel: "+xlabel+" ylabel: "+ylabel + "chartype : "+chartType);
         // plot.getDomainAxis().setLabel(xlabel);
         // plot.getDomainAxis().setLabel(ylabel);
         double numericMin = 0;
@@ -136,8 +136,28 @@ public class ImageChartUtils {
         if (pointTimeSeriesCollection.hasNumericData()) {
             //            XYSplineRenderer numericRenderer = new XYSplineRenderer();
             //            numericRenderer.setBaseShapesVisible(false);
-            //FR7 intially true & false
-            XYLineAndShapeRenderer numericRenderer = new XYLineAndShapeRenderer(false, true);   
+            //FR7 intially true & false for line
+            // XYLineAndShapeRenderer numericRenderer = new XYLineAndShapeRenderer(false, true); 
+                    // Declare numericRenderer without initialization
+            XYLineAndShapeRenderer numericRenderer;
+            if(chartType==null){
+                chartType="scatter";
+            }
+            // Determine renderer based on chartType
+            if (chartType.contains("scatter")) {
+                System.out.println("Set to scatter plot");
+                // Set to scatter plot (lines disabled, shapes enabled)
+                numericRenderer = new XYLineAndShapeRenderer(false, true);
+            } else if (chartType.contains("line")) {
+                // Set to line chart (lines enabled, shapes disabled)
+                // Do nothing, as numericRenderer is already initialized as line chart by default
+                System.out.println("Set to line chart");
+                numericRenderer = new XYLineAndShapeRenderer(true, false);
+            } else {
+                // Default behavior: line chart
+                System.out.println("Defaulting to line chart");
+                numericRenderer = new XYLineAndShapeRenderer(true, false);
+            }  
 
             plot.setDataset(NUMERIC_DATA_INDEX, pointTimeSeriesCollection.getNumericTimeSeriesCollection());
             plot.setRenderer(NUMERIC_DATA_INDEX, numericRenderer);
@@ -147,8 +167,8 @@ public class ImageChartUtils {
                 refernceline_Renderer.setSeriesPaint(0, Color.GREEN);
                 
                 TimeSeries ts = new TimeSeries("referenceLine", null, null, Second.class);
-                ts.add(new Second(new Date((long) plot.getDomainAxis().getLowerBound())), referenceLine);
-                ts.add(new Second(new Date((long) plot.getDomainAxis().getUpperBound())), referenceLine);
+                ts.addOrUpdate(new Second(new Date((long) plot.getDomainAxis().getLowerBound())), referenceLine);
+                ts.addOrUpdate(new Second(new Date((long) plot.getDomainAxis().getUpperBound())), referenceLine);
                 
                 
                 TimeSeriesCollection tsc = new TimeSeriesCollection(ts);

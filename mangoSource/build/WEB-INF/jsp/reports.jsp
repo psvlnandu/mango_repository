@@ -76,7 +76,7 @@
         for (var i=0; i<report.points.length; i++)
             addToReportPointsArray(report.points[i].pointId, report.points[i].colour,
                     report.points[i].consolidatedChart,
-                    report.points[i].charttype,
+                    report.points[i].chartType,
                     report.points[i].title,
                     report.points[i].xlabel,
                     report.points[i].ylabel,
@@ -131,7 +131,7 @@
         writeReportPointsArray();
     }
     
-    function addToReportPointsArray(pointId, colour, consolidatedChart,title,xlabel,ylabel,charttype,referenceLine) {
+    function addToReportPointsArray(pointId, colour, consolidatedChart,title,xlabel,ylabel,chartType,referenceLine) {
         var data = getPointData(pointId);
         if (data) {
             // Missing names imply that the point was deleted, so ignore.
@@ -142,7 +142,7 @@
                 colour : !colour ? (!data.chartColour ? "" : data.chartColour) : colour,
                 consolidatedChart : consolidatedChart,
                 //FR7
-                charttype: !charttype ? (!data.charttype ? "" : data.charttype) : charttype,
+                chartType: !chartType ? (!data.chartType ? "" : data.chartType) : chartType,
                 title: !title ? (!data.title ? "" : data.title) : title,
                 xlabel: !xlabel ? (!data.xlabel ? "" : data.xlabel) : xlabel,
                 ylabel: !ylabel ? (!data.ylabel ? "" : data.ylabel) : ylabel,
@@ -187,8 +187,8 @@
                     */
                    
                     function(data) {
-                    	    return "<input type='text' value='"+ data.charttype +"' "+
-                    	            "onblur='updatePointChartType("+ data.pointId +", this.value)'/>";
+                    	    return "<input type='text' value='"+ data.chartType +"' "+
+                    	            "onchange='updatePointChartType("+ data.pointId +", this.value)'/>";
                     },
                     function(data) {
                     	    return "<input type='text' value='"+ data.title +"' "+
@@ -255,10 +255,11 @@
             item["ylabel"] = ylabel;
     }
 
-    function updatePointChartType(pointId, charttype) {
+    function updatePointChartType(pointId, chartType) {
         var item = getElement(reportPointsArray, pointId, "pointId");
+        console.log("chart func called in jsp");
         if (item)
-            item["charttype"] = charttype;
+            item["chartType"] = chartType;
     }
     function updateReferenceLine(pointId, referenceline) {
         var item = getElement(reportPointsArray, pointId, "pointId");
@@ -468,7 +469,7 @@
         for (var i=0; i<reportPointsArray.length; i++)
             points[points.length] = { pointId: reportPointsArray[i].pointId, colour: reportPointsArray[i].colour,
         		    consolidatedChart: reportPointsArray[i].consolidatedChart,
-                charttype:reportPointsArray[i].charttype,
+                chartType:reportPointsArray[i].chartType,
                 title:reportPointsArray[i].title,
                 xlabel:reportPointsArray[i].xlabel,
                 ylabel:reportPointsArray[i].ylabel,
@@ -675,11 +676,11 @@
                           reports.title= title
                           reports.xlabel=xlabel
                           reports.ylabel=ylabel
-                          reports.charttype=chart type
+                          reports.chartType=chart type
                           reports.yReferenceLine=reference line
                       -->
 
-                      <td><fmt:message key="reports.charttype"/></td>
+                      <td><fmt:message key="reports.chartType"/></td>
                       <td><fmt:message key="reports.title"/></td>
                       <td><fmt:message key="reports.xlabel"/></td>
                       <td><fmt:message key="reports.ylabel"/></td>
