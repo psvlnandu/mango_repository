@@ -260,16 +260,14 @@ public class ReportsDwr extends BaseDwr {
             try {
                 if (!StringUtils.isEmpty(point.getColour()))
                     ColorUtils.toColor(point.getColour());
-                    /*
-                if(!point.getChartType().equals("scatter")  ||  !point.getChartType().equals("line"))
-                {
-                    response.addContextualMessage("points",  "reports.validate.chartType", point.getChartType());
-                }
-                if(point.getChartType().isEmpty() || point.getChartType()==null)
-                {
-                    response.addContextualMessage("points",  "reports.validate.chartType", point.getChartType());
-                }
-                */
+                    
+                    if (!point.getChartType().equals("scatter") && !point.getChartType().equals("line")) {
+                        response.addContextualMessage("points", "reports.validate.chartType", point.getChartType());
+                    } else if (point.getChartType().isEmpty() || point.getChartType() == null) {
+                        response.addContextualMessage("points", "reports.validate.chartType", point.getChartType());
+                    }
+                    
+                    
             }
             catch (InvalidArgumentException e) {
                 response.addContextualMessage("points", "reports.validate.colour", point.getColour());
