@@ -298,12 +298,6 @@
               <td class="formLabelRequired"><fmt:message key="users.newPassword"/></td>
               <td class="formField"><input id="password" type="text"/></td>
             </tr>
-            <!--
-            <tr>
-              <td class="formLabelRequired"><fmt:message key="users.newPassword"/></td>
-              <td class="formField"><input id="password" type="text"/></td>
-            </tr>
-          -->
             <tr>
               <td class="formLabelRequired"><fmt:message key="users.email"/></td>
               <td class="formField"><input id="email" type="text" class="formLong"/></td>

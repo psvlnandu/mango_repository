@@ -464,10 +464,10 @@
       <div dojoType="SplitContainer" orientation="horizontal" sizerWidth="3" activeSizing="true" class="borderDiv"
               widgetId="splitContainer" style="width: 100%; height: 500px;">
         <div dojoType="ContentPane" sizeMin="20" sizeShare="20" style="overflow:auto;padding:2px;">
-         <img src="images/hourglass.png" id="loadingImg"/>
-         <p> <strong>Mango M2M is an open-source software platform designed for monitoring, control, and automation of various systems and processes. For more information about mango <a href="help.shtm">click here</a></strong></p>
-         <p><strong>Mango gives an option to create individual user who can use the system. Various privileges can be assigned to users to grant them the ability to read and alter data and system behaviour. To create a new user <a href="users.shtm">click here</a></strong></p>
-        <p><strong>Images such as relevant sensor diagrams can also be included. </strong></p>
+                <img src="images/hourglass.png" id="loadingImg"/>
+                <p> <strong>Mango M2M is an open-source software platform designed for monitoring, control, and automation of various systems and processes. For more information about mango <a href="help.shtm">click here</a></strong></p>
+                <p><strong>Mango gives an option to create individual user who can use the system. Various privileges can be assigned to users to grant them the ability to read and alter data and system behaviour. To create a new user <a href="users.shtm">click here</a></strong></p>
+            <p><strong>Images such as relevant sensor diagrams can also be included. </strong></p>
            <img src="images/sensor_locations.png" id="sensor_locations"/>
           <div id="treeDiv" style="display:none;"><div dojoType="Tree" widgetId="tree"></div></div>
         </div>
