@@ -84,14 +84,14 @@ public class ImageChartUtils {
             String title,
             String xlabel,
             String ylabel,
-            String charttype,
+            String chartType,
             Double referenceLine
             ) {
         try {
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             //FR7
-            System.out.println("getchartdata: title "+title+" xlabel "+xlabel+" ylabl "+ylabel + "charttye :"+charttype);
-            writeChartFull(pointTimeSeriesCollection, showLegend, out, width, height, title,xlabel,ylabel,charttype,referenceLine);
+            System.out.println("getchartdata: title "+title+" xlabel "+xlabel+" ylabl "+ylabel + "chartType :"+chartType);
+            writeChartFull(pointTimeSeriesCollection, showLegend, out, width, height, title,xlabel,ylabel,chartType,referenceLine);
             return out.toByteArray();
         }
         catch (IOException e) {
@@ -105,7 +105,7 @@ public class ImageChartUtils {
             String title,
             String xlabel,
             String ylabel,
-            String charttype,
+            String chartType,
             double referenceLine
             
             ) throws IOException {
@@ -128,7 +128,7 @@ public class ImageChartUtils {
         plot.setRangeGridlinePaint(gridlines);
         //FR7
         // chart.setTitle(title);
-        System.out.println("writeChartFull title :"+title+" xlabel: "+xlabel+" ylabel: "+ylabel + "chartype : "+charttype);
+        System.out.println("writeChartFull title :"+title+" xlabel: "+xlabel+" ylabel: "+ylabel + "chartype : "+chartType);
         // plot.getDomainAxis().setLabel(xlabel);
         // plot.getDomainAxis().setLabel(ylabel);
         double numericMin = 0;
@@ -140,15 +140,15 @@ public class ImageChartUtils {
             // XYLineAndShapeRenderer numericRenderer = new XYLineAndShapeRenderer(false, true); 
                     // Declare numericRenderer without initialization
             XYLineAndShapeRenderer numericRenderer;
-            if(charttype==null){
-                charttype="scatter";
+            if(chartType==null){
+                chartType="scatter";
             }
-            // Determine renderer based on charttype
-            if (charttype.contains("scatter")) {
+            // Determine renderer based on chartType
+            if (chartType.contains("scatter")) {
                 System.out.println("Set to scatter plot");
                 // Set to scatter plot (lines disabled, shapes enabled)
                 numericRenderer = new XYLineAndShapeRenderer(false, true);
-            } else if (charttype.contains("line")) {
+            } else if (chartType.contains("line")) {
                 // Set to line chart (lines enabled, shapes disabled)
                 // Do nothing, as numericRenderer is already initialized as line chart by default
                 System.out.println("Set to line chart");

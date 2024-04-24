@@ -149,7 +149,7 @@ public class ReportChartCreator {
                     model.put("chartName", inlinePrefix + pointStat.getChartName());
                     //FR7
                     System.out.println("createcontext: title "+pointStat.getTitle()+" xlabel "+pointStat.getXlabel()+" ylabl "+pointStat.getYlabel()
-                    +"getcharttype() is "+pointStat.getChartType());
+                    +"getchartType() is "+pointStat.getChartType());
            
                 pointStat.setImageData(
                     ImageChartUtils.getChartData(ptsc,true, POINT_IMAGE_WIDTH, POINT_IMAGE_HEIGHT,
@@ -564,7 +564,7 @@ public class ReportChartCreator {
             point.setChartType(pointInfo.getChartType());
             point.setReferenceLine(pointInfo.getReferenceLine());
 
-            System.out.print("in class reportchartcreator charttype: ");System.out.println(pointInfo.getChartType());
+            System.out.print("in class reportchartcreator chartType: ");System.out.println(pointInfo.getChartType());
             System.out.print("in class reportchartcreator title: ");System.out.println(pointInfo.getTitle());
             System.out.print("in class reportchartcreator xlabel: ");System.out.println(pointInfo.getXlabel());
             System.out.print("in class reportchartcreator ylabel: ");System.out.println(pointInfo.getYlabel());

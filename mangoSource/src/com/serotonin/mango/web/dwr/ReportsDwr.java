@@ -263,11 +263,11 @@ public class ReportsDwr extends BaseDwr {
                     /*
                 if(!point.getChartType().equals("scatter")  ||  !point.getChartType().equals("line"))
                 {
-                    response.addContextualMessage("points",  "reports.validate.charttype", point.getChartType());
+                    response.addContextualMessage("points",  "reports.validate.chartType", point.getChartType());
                 }
                 if(point.getChartType().isEmpty() || point.getChartType()==null)
                 {
-                    response.addContextualMessage("points",  "reports.validate.charttype", point.getChartType());
+                    response.addContextualMessage("points",  "reports.validate.chartType", point.getChartType());
                 }
                 */
             }

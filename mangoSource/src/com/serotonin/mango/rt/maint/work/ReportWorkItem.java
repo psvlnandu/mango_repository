@@ -122,7 +122,7 @@ public class ReportWorkItem implements WorkItem {
                     // Should never happen since the colour would have been validated on save, so just let it go 
                     // as null.
                 }
-                System.out.println("getcharttype in reportworkitem is "+reportPoint.getChartType());
+                System.out.println("getchartType in reportworkitem is "+reportPoint.getChartType());
                 points.add(new ReportDao.PointInfo(point, colour, reportPoint.isConsolidatedChart(),reportPoint.getTitle(),
                 reportPoint.getXlabel(),reportPoint.getYlabel(),reportPoint.getChartType(),reportPoint.getReferenceLine()));
                 
